@@ -1,0 +1,46 @@
+<div class="container mt-4">
+  <h2>Gerenciar Pacientes</h2>
+  
+  <h3>Adicionar Paciente</h3>
+  <form>
+    <div class="form-group">
+      <label for="name">Nome</label>
+      <input id="name" [(ngModel)]="newPatient.name" name="name" class="form-control" placeholder="Nome" required />
+    </div>
+    <div class="form-group">
+      <label for="phone">Telefone</label>
+      <input id="phone" [(ngModel)]="newPatient.phone" (input)="onPhoneInput($event)" name="phone" class="form-control" placeholder="(99) 99999-9999" maxlength="15" required />
+    </div>
+    <div class="form-group">
+      <label for="appointmentDay">Dia da Consulta</label>
+      <select id="appointmentDay" [(ngModel)]="newPatient.appointmentDay" name="appointmentDay" class="form-control" required>
+        <option value="" disabled selected>Selecione um dia</option>
+        <option value="Monday">Segunda-feira</option>
+        <option value="Tuesday">Terça-feira</option>
+        <option value="Wednesday">Quarta-feira</option>
+        <option value="Thursday">Quinta-feira</option>
+        <option value="Friday">Sexta-feira</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="appointmentTime">Hora da Consulta</label>
+      <input id="appointmentTime" [(ngModel)]="newPatient.appointmentTime" (input)="onTimeInput($event)" name="appointmentTime" class="form-control" placeholder="HH:mm" maxlength="5" required />
+    </div>
+    <div class="form-group">
+      <label for="message">Mensagem</label>
+      <input id="message" [(ngModel)]="newPatient.message" name="message" class="form-control" placeholder="Mensagem" required />
+    </div>
+    <button (click)="addPatient()" class="btn btn-primary mt-2">Adicionar</button>
+  </form>
+
+  <h3 class="mt-4">Lista de Pacientes</h3>
+  <ul class="list-group">
+    <li *ngFor="let patient of patients" class="list-group-item d-flex justify-content-between align-items-center">
+      {{ patient.name }} - {{ patient.phone }} - {{ patient.appointmentDay === 'Monday' ? 'Segunda-feira' : patient.appointmentDay === 'Tuesday' ? 'Terça-feira' : patient.appointmentDay === 'Wednesday' ? 'Quarta-feira' : patient.appointmentDay === 'Thursday' ? 'Quinta-feira' : patient.appointmentDay === 'Friday' ? 'Sexta-feira' : patient.appointmentDay }} - {{ patient.appointmentTime }} - {{ patient.message }}
+      <button (click)="removePatient(patient._id)" class="btn btn-danger btn-sm">Remover</button>
+    </li>
+  </ul>
+
+  <h3 class="mt-4">QR Code do WhatsApp</h3>
+  <img *ngIf="qrCode" [src]="qrCode" alt="QR Code" class="img-fluid" />
+</div>
